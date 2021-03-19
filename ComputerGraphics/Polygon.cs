@@ -8,25 +8,25 @@ namespace ComputerGraphics
 {
     class Polygon
     {
-        private Point3D[] p = new Point3D[3];
+        private Point3D[] points = new Point3D[3];
         internal Polygon()
         {
         }
         internal Polygon(Point3D p1, Point3D p2, Point3D p3)
         {
-            this.p[0] = p1;
-            this.p[1] = p2;
-            this.p[2] = p3;
+            this.points[0] = p1;
+            this.points[1] = p2;
+            this.points[2] = p3;
         }
         public Point3D this[int index]
         {
             get
             {
-                return p[index];
+                return points[index];
             }
             set
             {
-                p[index] = value;
+                points[index] = value;
             }
         }
     }
