@@ -12,7 +12,7 @@ namespace ComputerGraphics
 {
     public partial class TestObj : Form
     {
-        private drawline line;
+        private DrawLine line;
         internal List<Point3D> pointList = new List<Point3D>();
         internal List<Polygon> polygons = new List<Polygon>();
         public TestObj()

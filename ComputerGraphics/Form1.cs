@@ -12,34 +12,39 @@ using System.Windows.Forms;
 
 namespace ComputerGraphics
 {
-    delegate void drawline(int x0, int y0, int x1, int y1, Image2D image, ColorRGB color);
+    delegate void DrawLine(int x0, int y0, int x1, int y1, Image2D image, ColorRGB color);
+
     public partial class Form1 : Form
     {
         public Form1()
         {
             InitializeComponent();
         }
-        drawline line;
+
+        DrawLine line;
+
         private void button1_Click(object sender, EventArgs e)
         {
             int height = Convert.ToInt32(textBox1.Text);
             int widht = Convert.ToInt32(textBox2.Text);
             Image2D blackImage = new Image2D(widht, height);
             int[,] black = new int[widht, height];
-            for(int i = 0; i < widht; i++)
+            for (int i = 0; i < widht; i++)
             {
-                for(int j = 0; j < height; j++)
+                for (int j = 0; j < height; j++)
                 {
                     black[i, j] = 0;
                 }
-            }    
-            for(int i = 0; i < widht; i++)
+            }
+
+            for (int i = 0; i < widht; i++)
             {
-                for(int j = 0; j < height; j++)
+                for (int j = 0; j < height; j++)
                 {
                     blackImage.setPixel(i, j, new ColorRGB(black[i, j], black[i, j], black[i, j]));
                 }
             }
+
             Bitmap resultBlackImage = ImageProcessor.Image2DtoBitmap(blackImage);
             pictureBox1.Image = resultBlackImage;
         }
@@ -57,6 +62,7 @@ namespace ComputerGraphics
                     white[i, j] = 255;
                 }
             }
+
             for (int i = 0; i < widht; i++)
             {
                 for (int j = 0; j < height; j++)
@@ -64,6 +70,7 @@ namespace ComputerGraphics
                     whiteImage.setPixel(i, j, new ColorRGB(white[i, j], white[i, j], white[i, j]));
                 }
             }
+
             Bitmap resultBlackImage = ImageProcessor.Image2DtoBitmap(whiteImage);
             pictureBox1.Image = resultBlackImage;
         }
@@ -80,6 +87,7 @@ namespace ComputerGraphics
                     redImage.setPixel(i, j, new ColorRGB(255, 0, 0));
                 }
             }
+
             Bitmap resultBlackImage = ImageProcessor.Image2DtoBitmap(redImage);
             pictureBox1.Image = resultBlackImage;
         }
@@ -93,20 +101,20 @@ namespace ComputerGraphics
             {
                 for (int j = 0; j < height; j++)
                 {
-                    gradientImage.setPixel(i, j, new ColorRGB((i + j)%256, (i + j) % 256, (i + j) % 256));
+                    gradientImage.setPixel(i, j, new ColorRGB((i + j) % 256, (i + j) % 256, (i + j) % 256));
                 }
             }
+
             Bitmap resultBlackImage = ImageProcessor.Image2DtoBitmap(gradientImage);
             pictureBox1.Image = resultBlackImage;
         }
 
-        
 
         private void button5_Click(object sender, EventArgs e)
         {
             Image2D imageLines = new Image2D(200, 200);
             int type = Convert.ToInt32(textBox3.Text);
-            switch(type)
+            switch (type)
             {
                 case 1:
                     line = ImageProcessor.line1;
@@ -120,24 +128,25 @@ namespace ComputerGraphics
                 case 4:
                     line = ImageProcessor.line4;
                     break;
-            }                
-            for(int i = 0; i < 13; i++)
+            }
+
+            for (int i = 0; i < 13; i++)
             {
                 double alpha = 2 * i * Math.PI / 13;
-                line(100, 100, Convert.ToInt32(100 + 95 * Math.Cos(alpha)), Convert.ToInt32(100 + 95 * Math.Sin(alpha)), imageLines, new ColorRGB(255, 0, 0));
+                line(100, 100, Convert.ToInt32(100 + 95 * Math.Cos(alpha)), Convert.ToInt32(100 + 95 * Math.Sin(alpha)),
+                    imageLines, new ColorRGB(255, 0, 0));
             }
+
             Bitmap resultImageLines = ImageProcessor.Image2DtoBitmap(imageLines);
             pictureBox1.Image = resultImageLines;
         }
 
         private void label1_Click(object sender, EventArgs e)
         {
-
         }
 
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
-
         }
 
         private void button7_Click(object sender, EventArgs e)
@@ -152,25 +161,28 @@ namespace ComputerGraphics
                     file.Add(str);
                 }
             }
+
             Regex floatNumber = new Regex(@"(?:-)?0[.]\d*");
             Regex intNumber = new Regex(@"\d+");
             int i = 1;
-            foreach(string temp in file)
+            foreach (string temp in file)
             {
-                if(temp[0] == 'v' && temp[1] == ' ')
+                if (temp[0] == 'v' && temp[1] == ' ')
                 {
                     MatchCollection matchCollection = floatNumber.Matches(temp);
-                    double x = Convert.ToDouble(matchCollection[0].Value.Replace('.',','));
+                    double x = Convert.ToDouble(matchCollection[0].Value.Replace('.', ','));
                     double y = Convert.ToDouble(matchCollection[1].Value.Replace('.', ','));
                     double z = Convert.ToDouble(matchCollection[2].Value.Replace('.', ','));
-                    Point3D point = new Point3D(x, y, z, 3500, 500, i);
+                    // Преобразование в экранные координаты, поэтому Y с противоположным знаком 
+                    Point3D point = new Point3D(x, -y, z, 3500, 500, i);
                     testObj.pointList.Add(point);
                     i++;
                 }
             }
-            foreach(string temp in file)
+
+            foreach (string temp in file)
             {
-                if(temp[0] == 'f')
+                if (temp[0] == 'f')
                 {
                     MatchCollection matchCollection = intNumber.Matches(temp);
                     int p1 = Convert.ToInt32(matchCollection[0].Value);
@@ -186,10 +198,11 @@ namespace ComputerGraphics
                             j++;
                         }
                     }
+
                     testObj.polygons.Add(polygon);
                 }
             }
-            
+
             testObj.Show();
         }
     }
