@@ -158,7 +158,7 @@
             // button6
             // 
             this.button6.Location = new System.Drawing.Point(1272, 523);
-            this.button6.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button6.Margin = new System.Windows.Forms.Padding(2);
             this.button6.Name = "button6";
             this.button6.Size = new System.Drawing.Size(117, 50);
             this.button6.TabIndex = 10;
@@ -168,7 +168,7 @@
             // button7
             // 
             this.button7.Location = new System.Drawing.Point(794, 189);
-            this.button7.Margin = new System.Windows.Forms.Padding(2, 2, 2, 2);
+            this.button7.Margin = new System.Windows.Forms.Padding(2);
             this.button7.Name = "button7";
             this.button7.Size = new System.Drawing.Size(137, 50);
             this.button7.TabIndex = 11;

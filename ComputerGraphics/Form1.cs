@@ -173,7 +173,7 @@ namespace ComputerGraphics
                     double x = Convert.ToDouble(matchCollection[0].Value.Replace('.', ','));
                     double y = Convert.ToDouble(matchCollection[1].Value.Replace('.', ','));
                     double z = Convert.ToDouble(matchCollection[2].Value.Replace('.', ','));
-                    Point3D point = new Point3D(x, y, z, 3500, 500, i);
+                    Point3D point = new Point3D(x, y, z, 4000, 500, i);
                     testObj.pointList.Add(point);
                     i++;
                 }
@@ -197,11 +197,13 @@ namespace ComputerGraphics
                             j++;
                             if (j == 3)
                             {
-                                if (!BarycentricPoint.sumLambdsIsOne(polygon, polygon[0]) ||
-                                    !BarycentricPoint.sumLambdsIsOne(polygon, polygon[1]) ||
-                                    !BarycentricPoint.sumLambdsIsOne(polygon, polygon[2]))
+                                BarycentricPoint barycentricPoint = new BarycentricPoint(polygon);
+                                barycentricPoint.calculateLambds(polygon[0]);
+                                if (Math.Abs(1 - barycentricPoint.Lambda0 - barycentricPoint.Lambda1 -
+                                             barycentricPoint.Lambda2) > 0.001)
                                 {
-                                    MessageBox.Show("Неверный формат чисел", "Ошибка", MessageBoxButtons.OK);
+                                    MessageBox.Show("Сумма барицентрических координат не равна 1!!!", "Ошибка",
+                                        MessageBoxButtons.OK);
                                 }
 
                                 break;
