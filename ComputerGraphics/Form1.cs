@@ -197,14 +197,15 @@ namespace ComputerGraphics
                             j++;
                             if (j == 3)
                             {
-                                if (!BarycentricPoint.sumLambdsIsOne(polygon, new Point3D(1,2)))
+                                if (!BarycentricPoint.sumLambdsIsOne(polygon, polygon[0]) ||
+                                    !BarycentricPoint.sumLambdsIsOne(polygon, polygon[1]) ||
+                                    !BarycentricPoint.sumLambdsIsOne(polygon, polygon[2]))
                                 {
                                     MessageBox.Show("Неверный формат чисел", "Ошибка", MessageBoxButtons.OK);
                                 }
+
                                 break;
                             }
-
-                            
                         }
                     }
 

@@ -18,7 +18,7 @@ namespace ComputerGraphics
                              ((x2 - x0) * (y1 - y0) - (y2 - y0) * (x1 - x0));
             double lambda2 = ((x0 - x1) * (screenPoint.Y - y1) - (y0 - y1) * (screenPoint.X - x1)) /
                              ((x0 - x1) * (y2 - y1) - (y0 - y1) * (x2 - x1));
-            return Math.Abs(1 - lambda0 - lambda1 - lambda2) < 0.000001;
+            return Math.Abs(1 - lambda0 - lambda1 - lambda2) < 0.001;
         }
     }
 }
