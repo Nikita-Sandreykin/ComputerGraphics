@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ComputerGraphics
 {
-    class Polygon
+    public class Polygon
     {
         private Point3D[] points = new Point3D[3];
         internal Polygon()

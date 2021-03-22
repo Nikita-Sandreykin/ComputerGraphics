@@ -173,8 +173,7 @@ namespace ComputerGraphics
                     double x = Convert.ToDouble(matchCollection[0].Value.Replace('.', ','));
                     double y = Convert.ToDouble(matchCollection[1].Value.Replace('.', ','));
                     double z = Convert.ToDouble(matchCollection[2].Value.Replace('.', ','));
-                    // Преобразование в экранные координаты, поэтому Y с противоположным знаком 
-                    Point3D point = new Point3D(x, -y, z, 3500, 500, i);
+                    Point3D point = new Point3D(x, y, z, 3500, 500, i);
                     testObj.pointList.Add(point);
                     i++;
                 }
@@ -196,6 +195,16 @@ namespace ComputerGraphics
                         {
                             polygon[j] = p;
                             j++;
+                            if (j == 3)
+                            {
+                                if (!BarycentricPoint.sumLambdsIsOne(polygon, new Point3D(1,2)))
+                                {
+                                    MessageBox.Show("Неверный формат чисел", "Ошибка", MessageBoxButtons.OK);
+                                }
+                                break;
+                            }
+
+                            
                         }
                     }
 

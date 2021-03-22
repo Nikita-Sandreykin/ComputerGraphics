@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace ComputerGraphics
 {
-    class Point3D
+    public class Point3D
     {
         private int x;
+        private double initialX;
         private int y;
+        private double initialY;
         private int z;
+        private double initialZ;
         private int i;
         private int k;
         private int a;
@@ -20,17 +23,46 @@ namespace ComputerGraphics
         public int Z { get => z; set => z = value; }
         public int I { get => i; set => i = value; }
 
+        public double InitialX
+        {
+            get => initialX;
+            set => initialX = value;
+        }
+
+        public double InitialY
+        {
+            get => initialY;
+            set => initialY = value;
+        }
+
+        public double InitialZ
+        {
+            get => initialZ;
+            set => initialZ = value;
+        }
+
         private int Convert(double n)
         {
             return (int)Math.Round(k * n + a);
         }
+
+        public Point3D(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+
         public Point3D(double x, double y, double z, int k, int a, int I)
         {
             this.k = k;
             this.a = a;
-            this.X = Convert(x);
-            this.Y = Convert(y);
-            this.Z = Convert(z);
+            initialX = x;
+            initialY = y;
+            initialZ = z;
+            this.x = Convert(x);
+            // конвертирование в экранные координаты для y надо с противоположным знаком, чтобы изображение не было перевернуто
+            this.y = Convert(-y);
+            this.z = Convert(z);
             this.i = I;
         }
     }
