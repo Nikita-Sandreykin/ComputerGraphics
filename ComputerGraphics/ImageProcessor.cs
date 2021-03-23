@@ -155,7 +155,6 @@ namespace ComputerGraphics
                     {
                      image2D.setPixel(x, y, colorRgb);   
                     }
-                    //image2D.setPixel(x, y, colorRgb);
                 }
             }
         }

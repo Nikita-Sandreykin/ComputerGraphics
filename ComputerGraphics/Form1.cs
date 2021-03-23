@@ -173,8 +173,8 @@ namespace ComputerGraphics
                     double x = Convert.ToDouble(matchCollection[0].Value.Replace('.', ','));
                     double y = Convert.ToDouble(matchCollection[1].Value.Replace('.', ','));
                     double z = Convert.ToDouble(matchCollection[2].Value.Replace('.', ','));
-                    Point3D point = new Point3D(x, y, z, 4000, 500, i);
-                    testObj.pointList.Add(point);
+                    Point3D point = new Point3D(x, y, z, 4000, 500);
+                    testObj.indexPointMap.Add(i, point);
                     i++;
                 }
             }
@@ -188,30 +188,20 @@ namespace ComputerGraphics
                     int p2 = Convert.ToInt32(matchCollection[3].Value);
                     int p3 = Convert.ToInt32(matchCollection[6].Value);
                     Polygon polygon = new Polygon();
-                    int j = 0;
-                    foreach (Point3D p in testObj.pointList)
-                    {
-                        if (p.I == p1 || p.I == p2 || p.I == p3)
-                        {
-                            polygon[j] = p;
-                            j++;
-                            if (j == 3)
-                            {
-                                BarycentricPoint barycentricPoint = new BarycentricPoint(polygon);
-                                barycentricPoint.calculateLambds(polygon[0]);
-                                if (Math.Abs(1 - barycentricPoint.Lambda0 - barycentricPoint.Lambda1 -
-                                             barycentricPoint.Lambda2) > 0.001)
-                                {
-                                    MessageBox.Show("Сумма барицентрических координат не равна 1!!!", "Ошибка",
-                                        MessageBoxButtons.OK);
-                                }
-
-                                break;
-                            }
-                        }
-                    }
-
+                    polygon[0] = testObj.indexPointMap[p1];
+                    polygon[1] = testObj.indexPointMap[p2];
+                    polygon[2] = testObj.indexPointMap[p3];
                     testObj.polygons.Add(polygon);
+                    // далее пойдет просто проверка на расчет бприцентрических координат точки относительно вершин треуголника
+                    // здесь это удобнее так как тут идет создание всех полигонов модели 
+                    BarycentricPoint barycentricPoint = new BarycentricPoint(polygon);
+                    barycentricPoint.calculateLambds(polygon[0]);
+                    if (Math.Abs(1 - barycentricPoint.Lambda0 - barycentricPoint.Lambda1 -
+                                 barycentricPoint.Lambda2) > 0.001)
+                    {
+                        MessageBox.Show("Сумма барицентрических координат не равна 1!!!", "Ошибка",
+                            MessageBoxButtons.OK);
+                    }
                 }
             }
 

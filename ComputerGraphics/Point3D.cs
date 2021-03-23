@@ -9,38 +9,17 @@ namespace ComputerGraphics
     public class Point3D
     {
         private int x;
-        private double initialX;
         private int y;
-        private double initialY;
         private int z;
-        private double initialZ;
-        private int i;
         private int k;
         private int a;
 
         public int X { get => x; set => x = value; }
         public int Y { get => y; set => y = value; }
         public int Z { get => z; set => z = value; }
-        public int I { get => i; set => i = value; }
+        
 
-        public double InitialX
-        {
-            get => initialX;
-            set => initialX = value;
-        }
-
-        public double InitialY
-        {
-            get => initialY;
-            set => initialY = value;
-        }
-
-        public double InitialZ
-        {
-            get => initialZ;
-            set => initialZ = value;
-        }
-
+        
         private int Convert(double n)
         {
             return (int)Math.Round(k * n + a);
@@ -52,18 +31,14 @@ namespace ComputerGraphics
             this.y = y;
         }
 
-        public Point3D(double x, double y, double z, int k, int a, int I)
+        public Point3D(double x, double y, double z, int k, int a)
         {
             this.k = k;
             this.a = a;
-            initialX = x;
-            initialY = y;
-            initialZ = z;
             this.x = Convert(x);
             // конвертирование в экранные координаты для y надо с противоположным знаком, чтобы изображение не было перевернуто
             this.y = Convert(-y);
             this.z = Convert(z);
-            this.i = I;
         }
     }
 }
