@@ -55,11 +55,15 @@ namespace ComputerGraphics
         private void rawTriangles(object sender, EventArgs e)
         {
             Image2D polygonsImage = new Image2D(1700, 1500);
-            Random random = new Random();
             foreach (Polygon pol in polygons)
             {
+                if (VectorUtil.cosDirectionEarthNormal(pol) >= 0)
+                {
+                    continue;
+                }
+
                 ImageProcessor.rawTriangle(pol, polygonsImage,
-                    new ColorRGB(random.Next(0, 255), random.Next(0, 255), random.Next(0, 255)));
+                    new ColorRGB((int) Math.Abs(VectorUtil.cosDirectionEarthNormal(pol) * 255), 0, 0));
             }
 
             Bitmap image = ImageProcessor.Image2DtoBitmap(polygonsImage);

@@ -55,7 +55,6 @@
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
     <Compile Include="Image2D.cs" />
-    <Compile Include="ImageProcessor.cs" />
     <Compile Include="Point3D.cs" />
     <Compile Include="Polygon.cs" />
     <Compile Include="Program.cs" />
@@ -66,6 +65,9 @@
     <Compile Include="TestObj.Designer.cs">
       <DependentUpon>TestObj.cs</DependentUpon>
     </Compile>
+    <Compile Include="util\ImageProcessor.cs" />
+    <Compile Include="util\VectorUtil.cs" />
+    <Compile Include="Vector.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
       <SubType>Designer</SubType>
