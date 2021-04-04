@@ -129,7 +129,7 @@ namespace ComputerGraphics
                 }
             }
         }
-        
+
         public static void rawTriangle(Polygon polygon, Image2D image2D, ColorRGB colorRgb)
         {
             int xMin = Math.Min(Math.Min(polygon[0].X, polygon[1].X), polygon[2].X) < 0
@@ -145,7 +145,7 @@ namespace ComputerGraphics
                 ? image2D.Height
                 : Math.Max(Math.Max(polygon[0].Y, polygon[1].Y), polygon[2].Y);
             BarycentricPoint barycentricPoint = new BarycentricPoint(polygon);
-            
+
             for (int x = xMin; x < xMax; x++)
             {
                 for (int y = yMin; y < yMax; y++)
@@ -153,7 +153,43 @@ namespace ComputerGraphics
                     barycentricPoint.calculateLambds(new Point3D(x, y));
                     if (barycentricPoint.Lambda0 >= 0 && barycentricPoint.Lambda1 >= 0 && barycentricPoint.Lambda2 >= 0)
                     {
-                     image2D.setPixel(x, y, colorRgb);   
+                        image2D.setPixel(x, y, colorRgb);
+                    }
+                }
+            }
+        }
+
+        public static void rawTriangleWithZBuffer(Polygon polygon, Image2D image2D, ColorRGB colorRgb, ZBuffer zBuffer)
+        {
+            int xMin = Math.Min(Math.Min(polygon[0].X, polygon[1].X), polygon[2].X) < 0
+                ? 0
+                : Math.Min(Math.Min(polygon[0].X, polygon[1].X), polygon[2].X);
+            int xMax = Math.Max(Math.Max(polygon[0].X, polygon[1].X), polygon[2].X) > image2D.Width
+                ? image2D.Width
+                : Math.Max(Math.Max(polygon[0].X, polygon[1].X), polygon[2].X);
+            int yMin = Math.Min(Math.Min(polygon[0].Y, polygon[1].Y), polygon[2].Y) < 0
+                ? 0
+                : Math.Min(Math.Min(polygon[0].Y, polygon[1].Y), polygon[2].Y);
+            int yMax = Math.Max(Math.Max(polygon[0].Y, polygon[1].Y), polygon[2].Y) > image2D.Height
+                ? image2D.Height
+                : Math.Max(Math.Max(polygon[0].Y, polygon[1].Y), polygon[2].Y);
+            BarycentricPoint barycentricPoint = new BarycentricPoint(polygon);
+
+            for (int x = xMin; x < xMax; x++)
+            {
+                for (int y = yMin; y < yMax; y++)
+                {
+                    barycentricPoint.calculateLambds(new Point3D(x, y));
+                    if (barycentricPoint.Lambda0 >= 0 && barycentricPoint.Lambda1 >= 0 && barycentricPoint.Lambda2 >= 0)
+                    {
+                        double z = barycentricPoint.Lambda0 * polygon[0].Z +
+                                   barycentricPoint.Lambda1 * polygon[1].Z +
+                                   barycentricPoint.Lambda2 * polygon[2].Z;
+                        if (z < zBuffer.getZBuffer(x, y))
+                        {
+                            zBuffer.setZBuffer(x, y, z);
+                            image2D.setPixel(x, y, colorRgb);
+                        }
                     }
                 }
             }

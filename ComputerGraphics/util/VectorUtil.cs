@@ -9,15 +9,15 @@ namespace ComputerGraphics
 
         public static Vector getVectorNormal(Polygon polygon)
         {
-            double x0 = polygon[0].InitialX;
-            double y0 = polygon[0].InitialY;
-            double z0 = polygon[0].InitialZ;
-            double x1 = polygon[1].InitialX;
-            double y1 = polygon[1].InitialY;
-            double z1 = polygon[1].InitialZ;
-            double x2 = polygon[2].InitialX;
-            double y2 = polygon[2].InitialY;
-            double z2 = polygon[2].InitialZ;
+            double x0 = polygon[0].X;
+            double y0 = polygon[0].Y;
+            double z0 = polygon[0].Z;
+            double x1 = polygon[1].X;
+            double y1 = polygon[1].Y;
+            double z1 = polygon[1].Z;
+            double x2 = polygon[2].X;
+            double y2 = polygon[2].Y;
+            double z2 = polygon[2].Z;
             // нахождение координат нормали через определитель
             double x = (y1 - y0) * (z1 - z2) - (z1 - z0) * (y1 - y2);
             double y = (x1 - x0) * (z1 - z2) - (z1 - z0) * (x1 - x2);

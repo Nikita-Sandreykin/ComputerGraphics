@@ -55,6 +55,20 @@ namespace ComputerGraphics
         private void rawTriangles(object sender, EventArgs e)
         {
             Image2D polygonsImage = new Image2D(1700, 1500);
+            Random random = new Random();
+            foreach (Polygon pol in polygons)
+            {
+                ImageProcessor.rawTriangle(pol, polygonsImage,
+                    new ColorRGB(random.Next(0, 255), random.Next(0, 255), random.Next(0, 255)));
+            }
+
+            Bitmap image = ImageProcessor.Image2DtoBitmap(polygonsImage);
+            pictureBox1.Image = image;
+        }
+
+        private void basicLighting(object sender, EventArgs e)
+        {
+            Image2D polygonsImage = new Image2D(1700, 1500);
             foreach (Polygon pol in polygons)
             {
                 if (VectorUtil.cosDirectionEarthNormal(pol) >= 0)
@@ -64,6 +78,26 @@ namespace ComputerGraphics
 
                 ImageProcessor.rawTriangle(pol, polygonsImage,
                     new ColorRGB((int) Math.Abs(VectorUtil.cosDirectionEarthNormal(pol) * 255), 0, 0));
+            }
+
+            Bitmap image = ImageProcessor.Image2DtoBitmap(polygonsImage);
+            pictureBox1.Image = image;
+        }
+
+        private void zBuffer(object sender, EventArgs e)
+        {
+            Image2D polygonsImage = new Image2D(1700, 1500);
+            ZBuffer zBuffer = new ZBuffer(1700, 1500);
+            foreach (Polygon pol in polygons)
+            {
+                if (VectorUtil.cosDirectionEarthNormal(pol) >= 0)
+                {
+                    continue;
+                }
+
+                ImageProcessor.rawTriangleWithZBuffer(pol, polygonsImage,
+                    new ColorRGB((int) Math.Abs(VectorUtil.cosDirectionEarthNormal(pol) * 255),
+                        (int) Math.Abs(VectorUtil.cosDirectionEarthNormal(pol) * 255), 0), zBuffer);
             }
 
             Bitmap image = ImageProcessor.Image2DtoBitmap(polygonsImage);
