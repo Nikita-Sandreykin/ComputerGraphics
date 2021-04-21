@@ -66,7 +66,7 @@
       <DependentUpon>TestObj.cs</DependentUpon>
     </Compile>
     <Compile Include="util\ImageProcessor.cs" />
-    <Compile Include="util\VectorUtil.cs" />
+    <Compile Include="util\MatrixUtil.cs" />
     <Compile Include="Vector.cs" />
     <Compile Include="ZBuffer.cs" />
     <EmbeddedResource Include="Form1.resx">

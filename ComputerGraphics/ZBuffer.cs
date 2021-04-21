@@ -19,7 +19,7 @@ namespace ComputerGraphics
         }
         public void setZBuffer(int x, int y, double z)
         {
-            zBuffer[x + width * y] = (int)z;
+            zBuffer[x + width * y] = z;
         }
         public double getZBuffer(int x, int y)
         {

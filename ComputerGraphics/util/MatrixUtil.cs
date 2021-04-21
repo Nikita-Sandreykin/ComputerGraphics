@@ -2,10 +2,11 @@ using System;
 
 namespace ComputerGraphics
 {
-    public class VectorUtil
+    public class MatrixUtil
     {
         public static readonly Vector directionEarth = new Vector(0, 0, 1);
         public static readonly int directionEarthVectorLength = 1;
+        public static readonly Vector t = new Vector(0.005, -0.045, 15.0);
 
         public static Vector getVectorNormal(Polygon polygon)
         {
@@ -33,6 +34,26 @@ namespace ComputerGraphics
             double normalVectorLength = Math.Sqrt(normalVector.X * normalVector.X + normalVector.Y * normalVector.Y +
                                                   normalVector.Z * normalVector.Z);
             return innerProduct / normalVectorLength * directionEarthVectorLength;
+        }
+
+        public static double[,] multiplyMatrix(double[,] matrixA, double[,] matrixB)
+        {
+            var matrixC = new double[matrixA.GetLength(0), matrixB.GetLength(1)];
+
+            for (var i = 0; i < matrixA.GetLength(0); i++)
+            {
+                for (var j = 0; j < matrixB.GetLength(1); j++)
+                {
+                    matrixC[i, j] = 0;
+
+                    for (var k = 0; k < matrixA.GetLength(1); k++)
+                    {
+                        matrixC[i, j] += matrixA[i, k] * matrixB[k, j];
+                    }
+                }
+            }
+
+            return matrixC;
         }
     }
 }

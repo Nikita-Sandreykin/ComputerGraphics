@@ -151,7 +151,7 @@ namespace ComputerGraphics
 
         private void button7_Click(object sender, EventArgs e)
         {
-            TestObj testObj = new TestObj();
+            TestObj testObj = new TestObj(false);
             List<string> file = new List<string>();
             using (StreamReader sr = new StreamReader(@"Test.obj", System.Text.Encoding.Default))
             {
@@ -207,5 +207,13 @@ namespace ComputerGraphics
 
             testObj.Show();
         }
+
+        private void moveTestObj(object sender, EventArgs e)
+        {
+            TestObj testObj = new TestObj(true);
+
+            testObj.Show();
+        }
+        
     }
 }
