@@ -88,7 +88,10 @@ namespace ComputerGraphics
             };
             double[,] r = MatrixUtil.multiplyMatrix(MatrixUtil.multiplyMatrix(r1, r2), r3);
             double[,] turnVector = MatrixUtil.multiplyMatrix(r, initVector);
-            
+            double[,] projectiveTransformationVector = MatrixUtil.projectiveTransformation(turnVector);
+            this.x = (int) (projectiveTransformationVector[0, 0] / projectiveTransformationVector[2, 0]);
+            this.y = (int) (projectiveTransformationVector[1, 0] / projectiveTransformationVector[2, 0]);
+            this.z = (int) projectiveTransformationVector[2, 0];
         }
 
         public static double angleToRadian(int angle)

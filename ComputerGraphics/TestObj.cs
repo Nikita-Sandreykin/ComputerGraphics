@@ -95,7 +95,7 @@ namespace ComputerGraphics
 
         private void rawPoints(object sender, EventArgs e)
         {
-            Image2D pointsImage = new Image2D(1700, 1500);
+            Image2D pointsImage = new Image2D(1000, 1000);
             foreach (Point3D temp in indexPointMap.Values)
             {
                 pointsImage.setPixel(temp.X, temp.Y, new ColorRGB(255, 0, 0));

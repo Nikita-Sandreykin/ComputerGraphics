@@ -55,5 +55,14 @@ namespace ComputerGraphics
 
             return matrixC;
         }
+
+        public static double[,] projectiveTransformation(double[,] turnVector)
+        {
+            double[,] k = {{10000, 0, 500}, {0, 10000, 500}, {0, 0, 1}};
+            turnVector[0, 0] += t.X;
+            turnVector[1, 0] += t.Y;
+            turnVector[2, 0] += t.Z;
+            return multiplyMatrix(k, turnVector);
+        }
     }
 }
