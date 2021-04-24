@@ -164,7 +164,6 @@ namespace ComputerGraphics
 
             Regex floatNumber = new Regex(@"(?:-)?0[.]\d*");
             Regex intNumber = new Regex(@"\d+");
-            int i = 1;
             foreach (string temp in file)
             {
                 if (temp[0] == 'v' && temp[1] == ' ')
@@ -174,8 +173,7 @@ namespace ComputerGraphics
                     double y = Convert.ToDouble(matchCollection[1].Value.Replace('.', ','));
                     double z = Convert.ToDouble(matchCollection[2].Value.Replace('.', ','));
                     Point3D point = new Point3D(x, y, z, 4000, 500);
-                    testObj.indexPointMap.Add(i, point);
-                    i++;
+                    testObj.points.Add(point);
                 }
             }
 
@@ -188,9 +186,9 @@ namespace ComputerGraphics
                     int p2 = Convert.ToInt32(matchCollection[3].Value);
                     int p3 = Convert.ToInt32(matchCollection[6].Value);
                     Polygon polygon = new Polygon();
-                    polygon[0] = testObj.indexPointMap[p1];
-                    polygon[1] = testObj.indexPointMap[p2];
-                    polygon[2] = testObj.indexPointMap[p3];
+                    polygon[0] = testObj.points[p1 - 1];
+                    polygon[1] = testObj.points[p2 - 1];
+                    polygon[2] = testObj.points[p3 - 1];
                     testObj.polygons.Add(polygon);
                     // далее пойдет просто проверка на расчет бприцентрических координат точки относительно вершин треуголника
                     // здесь это удобнее так как тут идет создание всех полигонов модели 

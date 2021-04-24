@@ -119,9 +119,6 @@
         {
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.button6 = new System.Windows.Forms.Button();
             this.textBox1 = new System.Windows.Forms.TextBox();
@@ -158,39 +155,10 @@
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(156, 81);
             this.button1.TabIndex = 1;
-            this.button1.Text = "Points";
+            this.button1.Text = "Guru";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.rawPoints);
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(822, 241);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(156, 81);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "Polygons";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.rawPolygons);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(822, 373);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(156, 81);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "Raw triangles ";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.rawTriangles);
-            // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(822, 501);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(156, 81);
-            this.button4.TabIndex = 3;
-            this.button4.Text = "Basic lighting";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.basicLighting);
+            this.button1.Click += new System.EventHandler(this.Guru);
+            
             // 
             // button5
             // 
@@ -260,9 +228,6 @@
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.button5);
             this.Controls.Add(this.button6);
-            this.Controls.Add(this.button4);
-            this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Controls.Add(this.pictureBox1);
             this.Margin = new System.Windows.Forms.Padding(2);

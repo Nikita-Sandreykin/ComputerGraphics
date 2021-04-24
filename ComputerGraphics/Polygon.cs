@@ -9,6 +9,7 @@ namespace ComputerGraphics
     public class Polygon
     {
         private Point3D[] points = new Point3D[3];
+        private Vector[] norms = new Vector[3];
         internal Polygon()
         {
         }
@@ -18,6 +19,19 @@ namespace ComputerGraphics
             this.points[1] = p2;
             this.points[2] = p3;
         }
+
+        public Point3D[] Points
+        {
+            get => points;
+            set => points = value;
+        }
+
+        public Vector[] Norms
+        {
+            get => norms;
+            set => norms = value;
+        }
+
         public Point3D this[int index]
         {
             get

@@ -15,8 +15,9 @@ namespace ComputerGraphics
     public partial class TestObj : Form
     {
         private DrawLine line;
-        internal Dictionary<int, Point3D> indexPointMap = new Dictionary<int, Point3D>();
+        internal List<Point3D> points = new List<Point3D>();
         internal List<Polygon> polygons = new List<Polygon>();
+        internal List<Vector> normalVectors = new List<Vector>();
 
         public TestObj(bool move)
         {
@@ -26,7 +27,7 @@ namespace ComputerGraphics
             }
             else
             {
-                InitializeComponent();   
+                InitializeComponent();
             }
         }
 
@@ -37,7 +38,7 @@ namespace ComputerGraphics
         private void turn(object sender, EventArgs e)
         {
             polygons.Clear();
-            indexPointMap.Clear();
+            points.Clear();
             List<string> file = new List<string>();
             using (StreamReader sr = new StreamReader(@"Test.obj", System.Text.Encoding.Default))
             {
@@ -48,9 +49,8 @@ namespace ComputerGraphics
                 }
             }
 
-            Regex floatNumber = new Regex(@"(?:-)?0[.]\d*");
+            Regex floatNumber = new Regex(@"(?:-)?\d*[.]\d*");
             Regex intNumber = new Regex(@"\d+");
-            int i = 1;
             foreach (string temp in file)
             {
                 if (temp[0] == 'v' && temp[1] == ' ')
@@ -59,24 +59,37 @@ namespace ComputerGraphics
                     double x = Convert.ToDouble(matchCollection[0].Value.Replace('.', ','));
                     double y = Convert.ToDouble(matchCollection[1].Value.Replace('.', ','));
                     double z = Convert.ToDouble(matchCollection[2].Value.Replace('.', ','));
-                    Point3D point = new Point3D(x, y, z, Convert.ToInt32(textBox1.Text), Convert.ToInt32(textBox2.Text),Convert.ToInt32(textBox3.Text));
-                    indexPointMap.Add(i, point);
-                    i++;
+                    Point3D point = new Point3D(x, y, z, Convert.ToInt32(textBox1.Text), Convert.ToInt32(textBox2.Text),
+                        Convert.ToInt32(textBox3.Text));
+                    points.Add(point);
                 }
-            }
 
-            foreach (string temp in file)
-            {
+                if (temp[0] == 'v' && temp[1] == 'n')
+                {
+                    MatchCollection matchCollection = floatNumber.Matches(temp);
+                    double x = Convert.ToDouble(matchCollection[0].Value.Replace('.', ','));
+                    double y = Convert.ToDouble(matchCollection[1].Value.Replace('.', ','));
+                    double z = Convert.ToDouble(matchCollection[2].Value.Replace('.', ','));
+                    Vector normalVector = new Vector(x, y, z);
+                    normalVectors.Add(normalVector);
+                }
+
                 if (temp[0] == 'f')
                 {
                     MatchCollection matchCollection = intNumber.Matches(temp);
                     int p1 = Convert.ToInt32(matchCollection[0].Value);
+                    int n1 = Convert.ToInt32(matchCollection[2].Value);
                     int p2 = Convert.ToInt32(matchCollection[3].Value);
+                    int n2 = Convert.ToInt32(matchCollection[5].Value);
                     int p3 = Convert.ToInt32(matchCollection[6].Value);
+                    int n3 = Convert.ToInt32(matchCollection[8].Value);
                     Polygon polygon = new Polygon();
-                    polygon[0] = indexPointMap[p1];
-                    polygon[1] = indexPointMap[p2];
-                    polygon[2] = indexPointMap[p3];
+                    polygon[0] = points[p1 - 1];
+                    polygon.Norms[0] = normalVectors[n1 - 1];
+                    polygon[1] = points[p2 - 1];
+                    polygon.Norms[1] = normalVectors[n2 - 1];
+                    polygon[2] = points[p3 - 1];
+                    polygon.Norms[2] = normalVectors[n3 - 1];
                     polygons.Add(polygon);
                     // далее пойдет просто проверка на расчет бприцентрических координат точки относительно вершин треуголника
                     // здесь это удобнее так как тут идет создание всех полигонов модели 
@@ -90,13 +103,12 @@ namespace ComputerGraphics
                     }
                 }
             }
-
         }
 
         private void rawPoints(object sender, EventArgs e)
         {
             Image2D pointsImage = new Image2D(1000, 1000);
-            foreach (Point3D temp in indexPointMap.Values)
+            foreach (Point3D temp in points)
             {
                 pointsImage.setPixel(temp.X, temp.Y, new ColorRGB(255, 0, 0));
             }
@@ -122,7 +134,7 @@ namespace ComputerGraphics
 
         private void rawTriangles(object sender, EventArgs e)
         {
-            Image2D polygonsImage = new Image2D(1700, 1500);
+            Image2D polygonsImage = new Image2D(1000, 1000);
             Random random = new Random();
             foreach (Polygon pol in polygons)
             {
@@ -136,7 +148,7 @@ namespace ComputerGraphics
 
         private void basicLighting(object sender, EventArgs e)
         {
-            Image2D polygonsImage = new Image2D(1700, 1500);
+            Image2D polygonsImage = new Image2D(1000, 1000);
             foreach (Polygon pol in polygons)
             {
                 if (MatrixUtil.cosDirectionEarthNormal(pol) >= 0)
@@ -154,8 +166,8 @@ namespace ComputerGraphics
 
         private void zBuffer(object sender, EventArgs e)
         {
-            Image2D polygonsImage = new Image2D(1700, 1500);
-            ZBuffer zBuffer = new ZBuffer(1700, 1500);
+            Image2D polygonsImage = new Image2D(1000, 1000);
+            ZBuffer zBuffer = new ZBuffer(1000, 1000);
             foreach (Polygon pol in polygons)
             {
                 if (MatrixUtil.cosDirectionEarthNormal(pol) >= 0)
@@ -166,6 +178,23 @@ namespace ComputerGraphics
                 ImageProcessor.rawTriangleWithZBuffer(pol, polygonsImage,
                     new ColorRGB((int) Math.Abs(MatrixUtil.cosDirectionEarthNormal(pol) * 255),
                         (int) Math.Abs(MatrixUtil.cosDirectionEarthNormal(pol) * 255), 0), zBuffer);
+            }
+
+            Bitmap image = ImageProcessor.Image2DtoBitmap(polygonsImage);
+            pictureBox1.Image = image;
+        }
+
+        private void Guru(object sender, EventArgs e)
+        {
+            Image2D polygonsImage = new Image2D(1000, 1000);
+            ZBuffer zBuffer = new ZBuffer(1000, 1000);
+            foreach (Polygon pol in polygons)
+            {
+                if (MatrixUtil.cosDirectionEarthNormal(pol) >= 0)
+                {
+                    continue;
+                }
+                ImageProcessor.rawTriangleWithGuruAndZBuffer(pol, polygonsImage, zBuffer);
             }
 
             Bitmap image = ImageProcessor.Image2DtoBitmap(polygonsImage);

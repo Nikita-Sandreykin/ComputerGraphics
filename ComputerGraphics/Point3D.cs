@@ -12,7 +12,7 @@ namespace ComputerGraphics
         private double initialX;
         private int y;
         private double initialY;
-        private int z;
+        private double z;
         private double initialZ;
         private int k;
         private int a;
@@ -29,7 +29,7 @@ namespace ComputerGraphics
             set => y = value;
         }
 
-        public int Z
+        public double Z
         {
             get => z;
             set => z = value;
@@ -67,9 +67,6 @@ namespace ComputerGraphics
 
         public Point3D(double x, double y, double z, int angleX, int angleY, int angleZ)
         {
-            initialX = x;
-            initialY = y;
-            initialZ = z;
             double[,] initVector = {{x}, {y}, {z}};
             double[,] r1 =
             {
@@ -88,10 +85,13 @@ namespace ComputerGraphics
             };
             double[,] r = MatrixUtil.multiplyMatrix(MatrixUtil.multiplyMatrix(r1, r2), r3);
             double[,] turnVector = MatrixUtil.multiplyMatrix(r, initVector);
+            initialX = turnVector[0, 0];
+            initialY = turnVector[1, 0];
+            initialZ = turnVector[2, 0];
             double[,] projectiveTransformationVector = MatrixUtil.projectiveTransformation(turnVector);
             this.x = (int) (projectiveTransformationVector[0, 0] / projectiveTransformationVector[2, 0]);
             this.y = (int) (projectiveTransformationVector[1, 0] / projectiveTransformationVector[2, 0]);
-            this.z = (int) projectiveTransformationVector[2, 0];
+            this.z = initVector[2,0];
         }
 
         public static double angleToRadian(int angle)

@@ -10,15 +10,15 @@ namespace ComputerGraphics
 
         public static Vector getVectorNormal(Polygon polygon)
         {
-            double x0 = polygon[0].X;
-            double y0 = polygon[0].Y;
-            double z0 = polygon[0].Z;
-            double x1 = polygon[1].X;
-            double y1 = polygon[1].Y;
-            double z1 = polygon[1].Z;
-            double x2 = polygon[2].X;
-            double y2 = polygon[2].Y;
-            double z2 = polygon[2].Z;
+            double x0 = polygon[0].InitialX;
+            double y0 = polygon[0].InitialY;
+            double z0 = polygon[0].InitialZ;
+            double x1 = polygon[1].InitialX;
+            double y1 = polygon[1].InitialY;
+            double z1 = polygon[1].InitialZ;
+            double x2 = polygon[2].InitialX;
+            double y2 = polygon[2].InitialY;
+            double z2 = polygon[2].InitialZ;
             // нахождение координат нормали через определитель
             double x = (y1 - y0) * (z1 - z2) - (z1 - z0) * (y1 - y2);
             double y = (x1 - x0) * (z1 - z2) - (z1 - z0) * (x1 - x2);
@@ -29,6 +29,14 @@ namespace ComputerGraphics
         public static double cosDirectionEarthNormal(Polygon polygon)
         {
             Vector normalVector = getVectorNormal(polygon);
+            double innerProduct = normalVector.X * directionEarth.X + normalVector.Y * directionEarth.Y +
+                                  normalVector.Z * directionEarth.Z;
+            double normalVectorLength = Math.Sqrt(normalVector.X * normalVector.X + normalVector.Y * normalVector.Y +
+                                                  normalVector.Z * normalVector.Z);
+            return innerProduct / normalVectorLength * directionEarthVectorLength;
+        }
+        public static double cosDirectionEarthNormal(Vector normalVector)
+        {
             double innerProduct = normalVector.X * directionEarth.X + normalVector.Y * directionEarth.Y +
                                   normalVector.Z * directionEarth.Z;
             double normalVectorLength = Math.Sqrt(normalVector.X * normalVector.X + normalVector.Y * normalVector.Y +
@@ -58,7 +66,7 @@ namespace ComputerGraphics
 
         public static double[,] projectiveTransformation(double[,] turnVector)
         {
-            double[,] k = {{10000, 0, 500}, {0, 10000, 500}, {0, 0, 1}};
+            double[,] k = {{35000, 0, 500}, {0, 35000, 500}, {0, 0, 1}};
             turnVector[0, 0] += t.X;
             turnVector[1, 0] += t.Y;
             turnVector[2, 0] += t.Z;
