@@ -177,7 +177,8 @@ namespace ComputerGraphics
 
                 ImageProcessor.rawTriangleWithZBuffer(pol, polygonsImage,
                     new ColorRGB((int) Math.Abs(MatrixUtil.cosDirectionEarthNormal(pol) * 255),
-                        (int) Math.Abs(MatrixUtil.cosDirectionEarthNormal(pol) * 255), 0), zBuffer);
+                        (int) Math.Abs(MatrixUtil.cosDirectionEarthNormal(pol) * 255),
+                        (int) Math.Abs(MatrixUtil.cosDirectionEarthNormal(pol) * 255)), zBuffer);
             }
 
             Bitmap image = ImageProcessor.Image2DtoBitmap(polygonsImage);
@@ -194,6 +195,7 @@ namespace ComputerGraphics
                 {
                     continue;
                 }
+
                 ImageProcessor.rawTriangleWithGuruAndZBuffer(pol, polygonsImage, zBuffer);
             }
 
